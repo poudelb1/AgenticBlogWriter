@@ -1,0 +1,14 @@
+# Environment variables
+.env
+
+# Virtual environment
+venv/
+
+# Byte‑compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Optional extras
+.idea/
+.vscode/
+.DS_Store

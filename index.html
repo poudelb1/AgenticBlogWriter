@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrewAI Blog Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Generate Your Next Blog Post</h1>
+            <p>Leverage the power of AI agents to research, write, and illustrate!</p>
+        </header>
+
+        <form id="blogForm">
+            <label for="topicInput">Enter Blog Topic:</label>
+            <input type="text" id="topicInput" placeholder="e.g., 'The Future of Renewable Energy'" required>
+            <button type="submit" id="generateButton">
+                <span class="button-text">Generate Blog</span>
+                <span class="spinner" style="display: none;"></span>
+            </button>
+        </form>
+
+        <div id="loadingIndicator" class="status-message" style="display: none;">
+            Generating your blog post... This might take a minute. 🧠✍️🖼️
+        </div>
+        <div id="errorDisplay" class="status-message error" style="display: none;"></div>
+
+        <article id="resultsArea" style="display: none;">
+            <h2 id="blogTitle"></h2>
+            <img id="blogImage" src="" alt="Generated Blog Image">
+            <div id="blogBody"></div>
+        </article>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+    <script src="script.js" defer></script>
+</body>
+</html>

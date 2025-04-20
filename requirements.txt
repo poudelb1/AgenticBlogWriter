@@ -1,0 +1,31 @@
+# Core FastAPI and Server
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0  # Includes standard dependencies like httptools, websockets
+
+# Pydantic for data validation
+pydantic>=2.0.0
+
+# Environment variable management
+python-dotenv>=1.0.0
+
+# CrewAI framework
+crewai>=0.28.8 # Use a recent version, adjust as needed
+crewai[tools]
+
+# Langchain components (often required by CrewAI tools/agents)
+langchain>=0.1.0
+langchain-openai>=0.1.0  # For OpenAI LLMs and tools integration
+langchain-community>=0.0.20 # For community tools like DuckDuckGo, Serper wrapper etc.
+
+# Web Scraping Tool Dependencies
+beautifulsoup4>=4.12.0
+lxml>=4.9.0 # Efficient parser for BeautifulSoup
+requests>=2.30.0 # For making HTTP requests (often used by scraping/API tools)
+
+# Search Tool Dependencies
+# For SerperDevTool (uses the google-search-results package)
+google-search-results>=2.4.0
+# Uncomment if using DuckDuckGoSearchRun tool
+# duckduckgo-search>=4.0.0
+
+# Optional: Specify version if needed, e.g., openai>=1.0.0
