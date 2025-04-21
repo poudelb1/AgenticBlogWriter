@@ -273,11 +273,6 @@ def generate_blog(topic: str) -> dict:
                 image_result = image_crew.kickoff()
 
                 # Assuming image_result is the URL string directly or parse if needed
-                # if isinstance(image_result, str) and image_result.startswith("http"):
-                #     image_url = image_result
-                #     logger.info(f"Image generated successfully: {image_url}")
-                # else:
-                #     logger.warning(f"Image generation did not return a valid URL. Result: {image_result}")
 
                 if hasattr(image_result, "raw"):
                     raw_out = image_result.raw
@@ -304,6 +299,18 @@ def generate_blog(topic: str) -> dict:
     except Exception as e:
         logger.error(f"Error during CrewAI kickoff or result processing: {e}", exc_info=True)
         raise BlogGenerationError(f"CrewAI pipeline failed: {e}") from e
+
+    # --- Strip duplicate title header from the body ---
+    import re
+    body_lines = final_body.splitlines()
+    if body_lines:
+        # normalize: remove leading # characters and surrounding whitespace
+        header_text = re.sub(r"^#+", "", body_lines[0]).strip()
+        if header_text.lower() == final_title.lower():
+            # drop the first line
+            body_lines = body_lines[1:]
+            final_body = "\n".join(body_lines)
+
 
     # --- Return Final Dictionary ---
     # Ensure keys match the BlogResponse model in app.py
