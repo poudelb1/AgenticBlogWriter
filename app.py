@@ -50,6 +50,8 @@ app.add_middleware(
 # Define the structure for request and response data
 class BlogRequest(BaseModel):
     topic: str
+    openai_api_key: str
+    serper_api_key: str
 
 class BlogResponse(BaseModel):
     title: str
@@ -67,7 +69,10 @@ async def generate_blog_endpoint(request: BlogRequest, http_request: Request):
 
     try:
         # Call the core generation logic
-        result = generate_blog(request.topic)
+        result = generate_blog(request.topic,
+                                    openai_api_key=request.openai_api_key,
+                                    serper_api_key=request.serper_api_key
+        )
         logger.info(f"Successfully generated blog for topic: '{request.topic}'")
         # Ensure result dictionary keys match BlogResponse fields before unpacking
         return BlogResponse(

@@ -28,7 +28,9 @@ class BlogGenerationError(Exception):
 # ----------------------
 
 
-def generate_blog(topic: str) -> dict:
+def generate_blog(topic: str,
+                  openai_api_key: str | None = None,
+                  serper_api_key: str | None = None) -> dict:
     """
     Generates a blog post using a CrewAI pipeline.
 
@@ -46,14 +48,21 @@ def generate_blog(topic: str) -> dict:
     logger.info(f"Starting blog generation process for topic: '{topic}'")
 
     # --- Load API Keys ---
-    # Ensure necessary API keys are set in the environment (.env file)
-    openai_api_key = os.getenv("OPENAI_API_KEY")
-    serper_api_key = os.getenv("SERPER_API_KEY")
+    openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
+    serper_api_key = serper_api_key or os.getenv("SERPER_API_KEY")
     # duckduckgo_api_key = os.getenv("DUCKDUCKGO_API_KEY") # Example if using DDG
 
+    # — Ensure we actually received an OpenAI key —
     if not openai_api_key:
-        logger.error("Missing OPENAI_API_KEY in environment variables.")
-        raise EnvironmentError("OpenAI API key not found in environment variables.")
+        raise EnvironmentError(
+            "OpenAI API key is missing. Pass it via the form or set it in .env"
+        )
+    os.environ["OPENAI_API_KEY"] = openai_api_key
+
+    # if not openai_api_key:
+    #     logger.error("Missing OPENAI_API_KEY in environment variables.")
+    #     raise EnvironmentError("OpenAI API key not found in environment variables.")
+    
     if not serper_api_key:
         # You might want to make Serper optional or use another search tool like DuckDuckGo
         logger.warning("Missing SERPER_API_KEY. Research capabilities might be limited.")
@@ -62,6 +71,14 @@ def generate_blog(topic: str) -> dict:
         search_tool = DuckDuckGoSearchRun()
     else:
         search_tool = SerperDevTool(api_key=serper_api_key)
+
+    # — Ensure we actually received a Serper key —
+    if not serper_api_key:
+        raise EnvironmentError(
+            "Serper API key is missing. Pass it via the form or set it in .env"
+        )
+    if serper_api_key:
+        os.environ["SERPER_API_KEY"] = serper_api_key
 
     logger.info("API keys loaded successfully.")
 

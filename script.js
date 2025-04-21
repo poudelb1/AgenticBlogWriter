@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const blogTitle = document.getElementById('blogTitle');
     const blogImage = document.getElementById('blogImage');
     const blogBody = document.getElementById('blogBody');
+    const openaiKeyInput = document.getElementById('openaiKey');
+    const serperKeyInput = document.getElementById('serperKey');  
 
     // --- Configuration ---
     // Make sure this URL matches where your FastAPI backend is running
@@ -41,7 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                     // Add any other headers if needed (e.g., Authentication)
                 },
-                body: JSON.stringify({ topic: topic }),
+                body: JSON.stringify({ topic: topic,
+                    openai_api_key: openaiKeyInput.value.trim(),
+                    serper_api_key: serperKeyInput.value.trim()
+                 }),
             });
 
             if (!response.ok) {
